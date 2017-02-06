@@ -1,0 +1,14 @@
+#!/bin/bash
+  #split($5,a,"-"); split(a[2],pid,"]:");
+pid=$(pidof freeradius)
+exec tail -F -n 0 /var/log/freeradius/radius.log |
+while read a; do echo "$pid - $a" |
+awk '{
+    split($1,pid," - ");
+  }
+  END{
+    printf "[radius %s] ", pid[1];
+    for(i=3; i<NF; i++) printf "%s",$i OFS; if(NF) printf "%s", $NF; printf ORS;
+  }' |
+logger -t radius -p local5.info;
+done

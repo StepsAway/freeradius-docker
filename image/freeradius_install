@@ -1,0 +1,7 @@
+function freeradius_install() {
+  apt-add-repository -y ppa:freeradius/stable-$FREERADIUS_MAJOR
+  apt-get update
+  $minimal_apt_get_install freeradius=$FREERADIUS_VERSION \
+                           freeradius-utils=$FREERADIUS_VERSION \
+                           freeradius-postgresql=$FREERADIUS_VERSION
+}
